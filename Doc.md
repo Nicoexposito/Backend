@@ -6,7 +6,7 @@
 3. Administrador
 
 ## Requerimientos funcionales usuarios no logueados:
--Ver productos
+- Ver productos
 - Buscar productos
 - Añadir productos al carrito
 - Eliminar productos al carrito
