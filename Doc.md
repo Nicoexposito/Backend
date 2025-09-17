@@ -1,0 +1,12 @@
+# Requerimientos funcionales:
+- Ver productos
+- Comprar productos
+- Ver productos en el carrito
+- Registrarse
+- Iniciar sessión
+- Pagar productos
+
+# Requerimientos no funcionales:
+- Rendimiento
+- Seguridad
+- Escalabilidad
