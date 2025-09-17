@@ -1,6 +1,6 @@
 # Requerimientos funcionales:
 
-## Actores
+## Actores:
 1. Usuario no logueado
 2. Usuario logueado
 3. Administrador
