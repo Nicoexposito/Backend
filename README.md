@@ -34,4 +34,19 @@ docker ps
 ## Connecta’t a MongoDB:
 mongodb://admin:admin123@localhost:27017
 
+# ADR-001: Elecció de base de dades
+
+## Context  
+Necessitem una base de dades flexible i escalable per emmagatzemar productes, usuaris, comandes i altres entitats d’una botiga online. El model pot créixer amb noves funcionalitats (com valoracions, wishlist, enviaments, etc.), i volem evitar rigidesa en l’estructura.  
+
+## Decisió  
+Farem servir **MongoDB** com a base de dades principal, executada dins un contenidor Docker.  
+
+## Conseqüències  
++ Gran flexibilitat per afegir nous camps i entitats sense modificar esquemes rígids.  
++ Bona integració amb entorns **Node.js/Express** i eines modernes d’e-commerce.  
++ Fàcil de desplegar i gestionar amb **Docker**.  
+- Menys adequat per a consultes amb moltes relacions complexes.  
+- Pot requerir optimització extra per consultes massives o agregacions complicades.  
+
 
