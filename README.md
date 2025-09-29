@@ -16,4 +16,7 @@ Estado: Working
 - Postman
 - Docker Compass / TablePlus
 
-
+# MongoDB a Docker
+## Clona el repositori:
+   git clone https://github.com/usuari/projecte-mongodb-docker.git
+   cd projecte-mongodb-docker
