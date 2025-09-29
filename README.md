@@ -37,14 +37,14 @@ mongodb://admin:admin123@localhost:27017
 # ADR-001: Elección de base de datos
 
 ## Contexto  
-Necesitamos una base de datos flexible y escalable para almacenar productos, usuarios, pedidos y otras entidades de una tienda online. El modelo puede crecer con nuevas funcionalidades (como valoraciones, wishlist, envíos, etc.), y queremos evitar rigidez en la estructura.  
+Necesitamos una base de datos flexible y escalable para almacenar productos, usuarios, pedidos y otras entidades de una tienda online. El modelo puede crecer con nuevas funcionalidades y queremos evitar rigidez en la estructura.  
 
 ## Decisión  
 Usaremos **MongoDB** como base de datos principal, ejecutada dentro de un contenedor Docker.  
 
 ## Consecuencias  
 + Gran flexibilidad para añadir nuevos campos y entidades sin modificar esquemas rígidos.  
-+ Buena integración con entornos **Node.js/Express** y herramientas modernas de e-commerce.  
++ Buena integración con entornos **Node.js** y herramientas modernas de e-commerce.  
 + Fácil de desplegar y gestionar con **Docker**.  
 - Menos adecuado para consultas con muchas relaciones complejas.  
 - Puede requerir optimización adicional para consultas masivas o agregaciones complicadas.  
