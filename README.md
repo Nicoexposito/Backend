@@ -34,19 +34,34 @@ docker ps
 ## Connecta’t a MongoDB:
 mongodb://admin:admin123@localhost:27017
 
-# ADR-001: Elecció de base de dades
+# ADR-001: Elección de base de datos
 
-## Context  
-Necessitem una base de dades flexible i escalable per emmagatzemar productes, usuaris, comandes i altres entitats d’una botiga online. El model pot créixer amb noves funcionalitats (com valoracions, wishlist, enviaments, etc.), i volem evitar rigidesa en l’estructura.  
+## Contexto  
+Necesitamos una base de datos flexible y escalable para almacenar productos, usuarios, pedidos y otras entidades de una tienda online. El modelo puede crecer con nuevas funcionalidades (como valoraciones, wishlist, envíos, etc.), y queremos evitar rigidez en la estructura.  
 
-## Decisió  
-Farem servir **MongoDB** com a base de dades principal, executada dins un contenidor Docker.  
+## Decisión  
+Usaremos **MongoDB** como base de datos principal, ejecutada dentro de un contenedor Docker.  
 
-## Conseqüències  
-+ Gran flexibilitat per afegir nous camps i entitats sense modificar esquemes rígids.  
-+ Bona integració amb entorns **Node.js/Express** i eines modernes d’e-commerce.  
-+ Fàcil de desplegar i gestionar amb **Docker**.  
-- Menys adequat per a consultes amb moltes relacions complexes.  
-- Pot requerir optimització extra per consultes massives o agregacions complicades.  
+## Consecuencias  
++ Gran flexibilidad para añadir nuevos campos y entidades sin modificar esquemas rígidos.  
++ Buena integración con entornos **Node.js/Express** y herramientas modernas de e-commerce.  
++ Fácil de desplegar y gestionar con **Docker**.  
+- Menos adecuado para consultas con muchas relaciones complejas.  
+- Puede requerir optimización adicional para consultas masivas o agregaciones complicadas.  
+
+# ADR-002: Estructura inicial del proyecto
+
+## Contexto  
+Debemos decidir cómo organizar el código del proyecto. Se puede trabajar con un **monorepo** (todo el backend, frontend y documentación en un único repositorio) o con **repositorios separados** (backend y frontend cada uno con el suyo). Queremos una estructura clara y sencilla para trabajar en equipo y desplegar cada componente de forma independiente.  
+
+## Decisión  
+Elegimos utilizar **repositorios separados**: un repositorio para el **backend** y otro para el **frontend**.  
+
+## Consecuencias  
++ Mayor claridad e independencia entre el backend y el frontend.  
++ Despliegue y pipelines más sencillos y modulares.  
++ Cada equipo puede trabajar en un repositorio sin interferir con el otro.  
+- Puede dificultar la gestión común de versiones y dependencias compartidas.  
+- Se requiere más organización para mantener la coherencia entre los repositorios.  
 
 
