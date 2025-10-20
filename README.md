@@ -73,3 +73,10 @@ En esta sesión se inició el desarrollo del backend de la API:
 - Implementación de **validaciones básicas** para los datos de entrada.
 - Creación y prueba de **índices** en las colecciones para mejorar el rendimiento.
 
+## Sesión 5: Capas, controladores y servicios
+
+- En esta sesión se aplicó la **arquitectura en capas** en el backend para mejorar la organización del código.
+- Se creó la estructura de carpetas `routes`, `controllers`, `services` y `models`.
+- Se implementaron los **endpoints CRUD** para la entidad **Producto** y se **refactorizó `index.js`** para integrar el sistema de rutas.
+- Finalmente, se comprobó el correcto funcionamiento de la API utilizando **Postman**.
+
