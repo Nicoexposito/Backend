@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 
 const producteSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
+  },
+  equip: {
+    type: String,
+    required: true // nombre del equipo de fútbol
+  },
   talla: {
     type: String,
     enum: ['XS', 'S', 'M', 'L', 'XL'],
@@ -18,7 +26,7 @@ const producteSchema = new mongoose.Schema({
   },
   imatge: {
     type: String,
-    required: false // opcional
+    required: false
   },
   descripcio: {
     type: String,

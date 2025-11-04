@@ -122,5 +122,16 @@
     "vary": "^1.1.2",
     "webidl-conversions": "^7.0.0",
     "whatwg-url": "^14.2.0"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nicoexposito/Backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nicoexposito/Backend/issues"
+  },
+  "homepage": "https://github.com/Nicoexposito/Backend#readme"
 }
