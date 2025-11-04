@@ -18,7 +18,7 @@ Estado: Working
 
 # MongoDB a Docker
 ## Clona el repositori:
-   git clone https://github.com/usuari/projecte-mongodb-docker.git
+   git clone https://github.com/Nicoexposito/Backend.git
 
 ## Executem MongoDB amb Docker:
 docker run -d \
