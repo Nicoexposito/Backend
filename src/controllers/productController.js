@@ -18,6 +18,20 @@ const getProductes = async (req, res) => {
   }
 };
 
+const getProducteById = async (req, res) => {
+  try {
+    const producte = await productService.getProducteById(req.params.id);
+
+    if (!producte) {
+      return res.status(404).json({ status: 'error', message: 'Producte no trobat' });
+    }
+
+    res.status(200).json({ status: 'success', data: producte });
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: error.message });
+  }
+};
+
 const updateProducte = async (req, res) => {
   try {
     const producte = await productService.updateProducte(req.params.id, req.body);
@@ -36,4 +50,10 @@ const deleteProducte = async (req, res) => {
   }
 };
 
-module.exports = { createProducte, getProductes, updateProducte, deleteProducte };
+module.exports = { 
+  createProducte, 
+  getProductes, 
+  getProducteById,  
+  updateProducte, 
+  deleteProducte 
+};
