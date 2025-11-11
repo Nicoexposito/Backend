@@ -80,3 +80,15 @@ En esta sesión se inició el desarrollo del backend de la API:
 - Se implementaron los **endpoints CRUD** para la entidad **Producto** y se **refactorizó `index.js`** para integrar el sistema de rutas.
 - Finalmente, se comprobó el correcto funcionamiento de la API utilizando **Postman**.
 
+## Sesión 6: Testing con Postman y validación en MongoDB
+
+En esta sesión se verificó el correcto funcionamiento del CRUD de productos:
+- Instalación de **Postman Agent Desktop** para testing de la API.
+- Ejecución de las operaciones CRUD en Postman:
+  - **POST**: Creación de productos.
+  - **GET**: Listado de todos los productos.
+  - **GET by ID**: Consulta de producto por identificador.
+  - **PUT**: Actualización de productos.
+  - **DELETE**: Eliminación de productos.
+- Verificación en **MongoDB** (Mongo Express) del resultado de cada operación CRUD.
+- Documentación con capturas de pantalla de las peticiones y respuestas.
