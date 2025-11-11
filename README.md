@@ -1,14 +1,14 @@
-# Backend de la tienda de camisetas de fútbol.
-**Descripcion:**
-Hola, soy Nico y esta es mi tienda de camisetas de futbol.
-Version 0.1 Alpha
-Estado: Working 
+# Backend de la botiga de samarretes de futbol.
+**Descripció:**
+Hola, soc en Nico i aquesta és la meva botiga de samarretes de futbol.
+Versió 0.1 Alpha
+Estat: Working 
 
-## Tecnologías:
+## Tecnologies:
 - **Backend:** Node.js
-- **Base de datos:** MongoDB
+- **Base de dades:** MongoDB
 
-## Software:
+## Programari:
 - Node
 - Git
 - Docker
@@ -28,67 +28,67 @@ docker run -d \
   -e MONGO_INITDB_ROOT_PASSWORD=admin123 \
   mongo:latest
 
-## Comprovem el estat del contenidor:
+## Comprovem l’estat del contenidor:
 docker ps
   
 ## Connecta’t a MongoDB:
 mongodb://admin:admin123@localhost:27017
 
 
-## Sesión 1: Configuración inicial del entorno
+## Sessió 1: Configuració inicial de l’entorn
 
-En esta primera sesión se preparó todo el entorno de desarrollo:
+En aquesta primera sessió es va preparar tot l’entorn de desenvolupament:
 
-- Instalación y configuración de **Node.js** utilizando **nvm** (Node Version Manager).
-- Configuración inicial del entorno de trabajo en **Visual Studio Code (VSCode)**.
-- Creación del repositorio en **GitHub** e inicialización del proyecto.
-- Inicio del archivo `README.md` para documentar el progreso y las decisiones del proyecto.
+- Instal·lació i configuració de **Node.js** utilitzant **nvm** (Node Version Manager).
+- Configuració inicial de l’entorn de treball a **Visual Studio Code (VSCode)**.
+- Creació del repositori a **GitHub** i inicialització del projecte.
+- Inici del fitxer `README.md` per documentar el progrés i les decisions del projecte.
 
-## Sesión 2: Configuración de Docker y base de datos
+## Sessió 2: Configuració de Docker i base de dades
 
-Durante esta sesión se trabajó en la virtualización de servicios y la gestión de la base de datos:
+Durant aquesta sessió es va treballar en la virtualització de serveis i la gestió de la base de dades:
 
-- Instalación de **Docker Desktop** y **Docker Compose**.
-- Creación y configuración de los contenedores de:
-  - **MongoDB** como base de datos principal.
-  - **Mongo Express** como interfaz gráfica para gestionar los datos.
-- Verificación del correcto funcionamiento y conexión entre servicios.
+- Instal·lació de **Docker Desktop** i **Docker Compose**.
+- Creació i configuració dels contenidors de:
+  - **MongoDB** com a base de dades principal.
+  - **Mongo Express** com a interfície gràfica per gestionar les dades.
+- Verificació del correcte funcionament i connexió entre serveis.
 
-## Sesión 3: Diseño del dominio y análisis del sistema
+## Sessió 3: Disseny del domini i anàlisi del sistema
 
-En esta etapa se definió la estructura conceptual del e-commerce:
+En aquesta etapa es va definir l’estructura conceptual de l’e-commerce:
 
-- Identificación de las **entidades principales** del sistema (productos, usuarios, pedidos, etc.).
-- Definición de **atributos y relaciones** entre las entidades.
-- Creación del **diagrama de dominio (conceptual)** con sus **cardinalidades**.
-- Almacenamiento del diagrama en una carpeta específica dentro del repositorio.
-- Elaboración de **dos ADRs (Architecture Decision Records)** documentando decisiones clave del diseño.
+- Identificació de les **entitats principals** del sistema (productes, usuaris, comandes, etc.).
+- Definició d’**atributs i relacions** entre les entitats.
+- Creació del **diagrama de domini (conceptual)** amb les seves **cardinalitats**.
+- Emmagatzematge del diagrama en una carpeta específica dins del repositori.
+- Elaboració de **dos ADRs (Architecture Decision Records)** documentant decisions clau del disseny.
 
-## Sesión 4: Inicio del backend y modelado de datos
+## Sessió 4: Inici del backend i modelatge de dades
 
-En esta sesión se inició el desarrollo del backend de la API:
+En aquesta sessió es va iniciar el desenvolupament del backend de l’API:
 
-- Configuración del proyecto **Node.js** con **Express**.
-- Definición de los **esquemas de datos** utilizando **MongoDB**.
-- Implementación de **validaciones básicas** para los datos de entrada.
-- Creación y prueba de **índices** en las colecciones para mejorar el rendimiento.
+- Configuració del projecte **Node.js** amb **Express**.
+- Definició dels **esquemes de dades** utilitzant **MongoDB**.
+- Implementació de **validacions bàsiques** per a les dades d’entrada.
+- Creació i prova d’**índexs** a les col·leccions per millorar el rendiment.
 
-## Sesión 5: Capas, controladores y servicios
+## Sessió 5: Capes, controladors i serveis
 
-- En esta sesión se aplicó la **arquitectura en capas** en el backend para mejorar la organización del código.
-- Se creó la estructura de carpetas `routes`, `controllers`, `services` y `models`.
-- Se implementaron los **endpoints CRUD** para la entidad **Producto** y se **refactorizó `index.js`** para integrar el sistema de rutas.
-- Finalmente, se comprobó el correcto funcionamiento de la API utilizando **Postman**.
+- En aquesta sessió es va aplicar l’**arquitectura en capes** al backend per millorar l’organització del codi.
+- Es va crear l’estructura de carpetes `routes`, `controllers`, `services` i `models`.
+- Es van implementar els **endpoints CRUD** per a l’entitat **Producte** i es va **refactoritzar `index.js`** per integrar el sistema de rutes.
+- Finalment, es va comprovar el correcte funcionament de l’API utilitzant **Postman**.
 
-## Sesión 6: Testing con Postman y validación en MongoDB
+## Sessió 6: Testing amb Postman i validació a MongoDB
 
-En esta sesión se verificó el correcto funcionamiento del CRUD de productos:
-- Instalación de **Postman Agent Desktop** para testing de la API.
-- Ejecución de las operaciones CRUD en Postman:
-  - **POST**: Creación de productos.
-  - **GET**: Listado de todos los productos.
-  - **GET by ID**: Consulta de producto por identificador.
-  - **PUT**: Actualización de productos.
-  - **DELETE**: Eliminación de productos.
-- Verificación en **MongoDB** (Mongo Express) del resultado de cada operación CRUD.
-- Documentación con capturas de pantalla de las peticiones y respuestas.
+En aquesta sessió es va verificar el correcte funcionament del CRUD de productes:
+- Instal·lació de **Postman Agent Desktop** per al testing de l’API.
+- Execució de les operacions CRUD a Postman:
+  - **POST**: Creació de productes.
+  - **GET**: Llistat de tots els productes.
+  - **GET by ID**: Consulta de producte per identificador.
+  - **PUT**: Actualització de productes.
+  - **DELETE**: Eliminació de productes.
+- Verificació a **MongoDB** (Mongo Express) del resultat de cada operació CRUD.
+- Documentació amb captures de pantalla de les peticions i respostes.
