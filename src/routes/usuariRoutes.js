@@ -2,16 +2,15 @@ const express = require('express');
 const router = express.Router();
 const usuariController = require('../controllers/usuariController');
 
-// Crear un nou usuari
+// Registre i Login
+router.post('/registre', usuariController.registre);
+router.post('/login', usuariController.login);
+
+// CRUD
 router.post('/', usuariController.createUsuari);
-
-// Obtenir tots els usuaris
 router.get('/', usuariController.getUsuaris);
-
-// Actualitzar un usuari per ID
+router.get('/:id', usuariController.getUsuariById);
 router.put('/:id', usuariController.updateUsuari);
-
-// Eliminar un usuari per ID
 router.delete('/:id', usuariController.deleteUsuari);
 
 module.exports = router;
