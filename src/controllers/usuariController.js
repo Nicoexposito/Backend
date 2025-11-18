@@ -1,10 +1,22 @@
 const usuariService = require('../services/usuariService');
 
-// REGISTRE
+// REGISTRO
 const registre = async (req, res) => {
   try {
     const usuari = await usuariService.registre(req.body);
-    res.status(201).json({ status: 'success', data: usuari });
+    res.status(201).json({
+      status: 'success',
+      message: 'Usuari registrat correctament', // mensaje amigable
+      data: {
+        id: usuari._id,
+        nom: usuari.nom,
+        primerCognom: usuari.primerCognom,
+        segonCognom: usuari.segonCognom,
+        email: usuari.email,
+        rol: usuari.rol,
+        estat: usuari.estat
+      }
+    });
   } catch (error) {
     res.status(400).json({ status: 'error', message: error.message });
   }
@@ -15,13 +27,28 @@ const login = async (req, res) => {
   try {
     const { email, contrasenya } = req.body;
     const resultat = await usuariService.login(email, contrasenya);
-    res.status(200).json({ status: 'success', data: resultat });
+
+    // Solo devolver mensaje y token, no la contraseña
+    res.status(200).json({
+      status: 'success',
+      message: 'Login correcte', // mensaje amigable
+      data: {
+        usuari: {
+          id: resultat.usuari._id,
+          nom: resultat.usuari.nom,
+          primerCognom: resultat.usuari.primerCognom,
+          email: resultat.usuari.email,
+          rol: resultat.usuari.rol
+        },
+        token: resultat.token
+      }
+    });
   } catch (error) {
     res.status(401).json({ status: 'error', message: error.message });
   }
 };
 
-// CRUD
+// CRUD (sin cambios)
 const createUsuari = async (req, res) => {
   try {
     const usuari = await usuariService.createUsuari(req.body);
