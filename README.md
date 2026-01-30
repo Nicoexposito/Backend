@@ -92,3 +92,22 @@ En aquesta sessió es va verificar el correcte funcionament del CRUD de producte
   - **DELETE**: Eliminació de productes.
 - Verificació a **MongoDB** (Mongo Express) del resultat de cada operació CRUD.
 - Documentació amb captures de pantalla de les peticions i respostes.
+
+## Sessió 7: Registre i Login d’usuaris
+
+En aquesta sessió s’ha implementat el sistema d’autenticació bàsica per al backend de la botiga, afegint tot el necessari per gestionar usuaris, registrar-los i permetre que puguin iniciar sessió de manera segura.
+
+S’han instal·lat les llibreries necessàries per al procés d’autenticació: **bcrypt** per al hashing segur de contrasenyes i **jsonwebtoken (JWT)** per permetre generar tokens d’autenticació que s’utilitzaran en futures proteccions de rutes.
+
+S’ha creat el model **`Usuari.js`**, que inclou validacions d’email i contrasenya, així com un hook pre-save encarregat d’encriptar les contrasenyes abans de desar-les a MongoDB. Això garanteix que mai es guardin en text pla.
+
+També s’ha desenvolupat el controlador **`usuariController.js`**, responsable de rebre les peticions de registre i login, però delegant la lògica al servei per mantenir una bona arquitectura en capes.
+
+El servei **`usuariService.js`** s’encarrega d’interactuar amb la base de dades, xifrar contrasenyes, verificar que una contrasenya coincideix amb el hash guardat i generar tokens JWT quan l’usuari inicia sessió correctament.
+
+A més, s’han creat les rutes d’usuari al fitxer **`usuariRoutes.js`**, incorporant les operacions:
+- `POST /registre` — Registre d’un nou usuari.
+- `POST /login` — Validació de credencials i generació de token.
+
+Finalment, s’han realitzat proves amb **Postman**, verificant tant el registre com el login, i comprovant a **MongoDB** que les contrasenyes es guarden en format hash i que les dades es registren correctament.
+
