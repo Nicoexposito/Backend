@@ -41,28 +41,43 @@ module.exports = mongoose.model('Producte', producteSchema);*/
 const mongoose = require('mongoose');
 
 const producteSchema = new mongoose.Schema({
+  // Nombre del producto con traducciones
+  name: {
+    en: { type: String, required: true },
+    es: { type: String, required: true }
+  },
+  // Equipo de fútbol
   equip: {
     type: String,
-    required: true // nombre del equipo de fútbol
+    required: true
+  },
+  // Tipo de equipación con traducciones
+  color: {
+    en: { type: String, required: true },
+    es: { type: String, required: true }
   },
   talla: {
     type: String,
     enum: ['XS', 'S', 'M', 'L', 'XL'],
-    required: true
+    default: 'M'
   },
   preu: {
-    type: Number,
-    required: true,
-    min: [0, 'El preu no pot ser negatiu']
+    type: String,
+    required: true
   },
   stock: {
     type: Number,
     required: true,
-    min: [0, 'L’estoc no pot ser negatiu']
+    default: 100,
+    min: [0, "L'estoc no pot ser negatiu"]
   },
-  imatge: {
+  imageSrc: {
     type: String,
-    required: false
+    required: true
+  },
+  imageAlt: {
+    type: String,
+    required: true
   },
   descripcio: {
     type: String,
@@ -70,8 +85,7 @@ const producteSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-// Índex per millorar cerques per talla i preu
-producteSchema.index({ talla: 1, preu: 1 });
+// Índex per millorar cerques per equip i preu
+producteSchema.index({ equip: 1, preu: 1 });
 
 module.exports = mongoose.model('Producte', producteSchema);
-
