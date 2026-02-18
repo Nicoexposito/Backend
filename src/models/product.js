@@ -79,6 +79,18 @@ const producteSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  liga: {
+    type: String,
+    default: 'La Liga'
+  },
+  marca: {
+    type: String,
+    default: 'Adidas'
+  },
+  colorPrincipal: {
+    type: String,
+    default: 'Blanco'
+  },
   descripcio: {
     type: String,
     maxlength: 500

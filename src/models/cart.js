@@ -30,4 +30,4 @@ const cartSchema = new mongoose.Schema({
 // Índex per cercar per sessionId
 cartSchema.index({ sessionId: 1 });
 
-module.exports = mongoose.model('Cart', cartSchema);
+module.exports = mongoose.model('Cart', cartSchema, 'carrito');
