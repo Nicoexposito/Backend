@@ -6,6 +6,7 @@ const productRoutes = require('./routes/productRoutes');
 const usuariRoutes = require('./routes/usuariRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const authRoutes = require('./routes/authRoutes');
+const ventaRoutes = require('./routes/ventaRoutes');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/usuari', usuariRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/ventas', ventaRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor escoltant al port ${PORT}`));

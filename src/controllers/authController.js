@@ -1,28 +1,29 @@
-//const User = require('../models/User');
 const User = require('../models/usuari');
+const RefreshToken = require('../models/refreshToken');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'secretkey';
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'refreshsecretkey';
 
 // REGISTER
 exports.register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { nom, email, contrasenya, rol } = req.body;
 
-    // comprobar si el usuario existe
+    // Comprobar si el usuario existe
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: 'Este email ya existe.' });
     }
 
-    // hash de la contraseña
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // crear usuario
+    // Crear usuario (el hash es fa automàticament al model amb pre-save)
     const user = new User({
-      name,
+      nom,
+      primerCognom: req.body.primerCognom || 'No indicat',
       email,
-      password: hashedPassword,
-      role: 'client'
+      contrasenya,
+      rol: rol || 'client'
     });
 
     await user.save();
@@ -40,39 +41,129 @@ exports.register = async (req, res) => {
 // LOGIN
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, contrasenya } = req.body;
 
-    // buscar usuario
+    // Buscar usuario
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'Contraseñas incorrectas' });
+      return res.status(400).json({ message: 'Credencials incorrectes' });
     }
 
-    // comparar contraseña
-    const isMatch = await bcrypt.compare(password, user.password);
+    // Comparar contrasenya
+    const isMatch = await bcrypt.compare(contrasenya, user.contrasenya);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Contraseñas incorrectas' });
+      return res.status(400).json({ message: 'Credencials incorrectes' });
     }
 
-    // generar token
-    const token = jwt.sign(
+    // Generar access token (curt: 15 minuts)
+    const accessToken = jwt.sign(
       {
         id: user._id,
-        role: user.role
+        role: user.rol
       },
-      process.env.JWT_SECRET || "secretkey",
-      { expiresIn: "15m" }
+      JWT_SECRET,
+      { expiresIn: '15m' }
     );
 
+    // Generar refresh token (llarg: 7 dies)
+    const refreshToken = jwt.sign(
+      { id: user._id },
+      JWT_REFRESH_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    // Guardar refresh token a la base de dades
+    await RefreshToken.create({
+      token: refreshToken,
+      userId: user._id,
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 dies
+    });
+
     res.json({
-      message: 'Login correcto',
-      token,
+      message: 'Login correcte',
+      accessToken,
+      refreshToken,
       user: {
         id: user._id,
+        nom: user.nom,
         email: user.email,
-        role: user.role
+        role: user.rol
       }
     });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+// REFRESH TOKEN
+exports.refresh = async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+      return res.status(400).json({ message: 'Refresh token requerit.' });
+    }
+
+    // Buscar el refresh token a la base de dades
+    const storedToken = await RefreshToken.findOne({ token: refreshToken });
+    if (!storedToken) {
+      return res.status(403).json({ message: 'Refresh token no vàlid o ja utilitzat.' });
+    }
+
+    // Verificar que el token JWT és vàlid
+    jwt.verify(refreshToken, JWT_REFRESH_SECRET, async (err, decoded) => {
+      if (err) {
+        // Si el token ha expirat, eliminar-lo
+        await RefreshToken.deleteOne({ token: refreshToken });
+        return res.status(403).json({ message: 'Refresh token expirat.' });
+      }
+
+      // Buscar l'usuari per generar un nou access token amb el rol actual
+      const user = await User.findById(decoded.id);
+      if (!user) {
+        return res.status(404).json({ message: 'Usuari no trobat.' });
+      }
+
+      // Generar un nou access token
+      const newAccessToken = jwt.sign(
+        {
+          id: user._id,
+          role: user.rol
+        },
+        JWT_SECRET,
+        { expiresIn: '15m' }
+      );
+
+      res.json({
+        accessToken: newAccessToken
+      });
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+// LOGOUT
+exports.logout = async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+      return res.status(400).json({ message: 'Refresh token requerit.' });
+    }
+
+    // Eliminar el refresh token de la base de dades
+    const result = await RefreshToken.deleteOne({ token: refreshToken });
+
+    if (result.deletedCount === 0) {
+      return res.status(400).json({ message: 'Refresh token no trobat.' });
+    }
+
+    res.json({ message: 'Logout correcte. Sessió tancada.' });
 
   } catch (error) {
     res.status(500).json({ message: error.message });
