@@ -31,7 +31,7 @@ const usuariController = require('../controllers/usuariController');
  *             properties:
  *               nom:
  *                 type: string
- *                 example: Maria
+ *                 example: Nico
  *               primerCognom:
  *                 type: string
  *                 example: Puig
@@ -41,7 +41,7 @@ const usuariController = require('../controllers/usuariController');
  *               email:
  *                 type: string
  *                 format: email
- *                 example: maria@example.com
+ *                 example: nico@example.com
  *               contrasenya:
  *                 type: string
  *                 example: password123
@@ -80,7 +80,7 @@ router.post('/registre', usuariController.registre);
  *               email:
  *                 type: string
  *                 format: email
- *                 example: maria@example.com
+ *                 example: nico@example.com
  *               contrasenya:
  *                 type: string
  *                 example: password123

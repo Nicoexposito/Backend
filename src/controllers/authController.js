@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'secretkey';
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'refreshsecretkey';
 
-// REGISTER
+// Register
 exports.register = async (req, res) => {
   try {
     const { nom, email, contrasenya, rol } = req.body;
@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: 'Este email ya existe.' });
     }
 
-    // Crear usuario (el hash es fa automàticament al model amb pre-save)
+    // Crear usuario
     const user = new User({
       nom,
       primerCognom: req.body.primerCognom || 'No indicat',
@@ -38,7 +38,7 @@ exports.register = async (req, res) => {
 };
 
 
-// LOGIN
+// LOgin
 exports.login = async (req, res) => {
   try {
     const { email, contrasenya } = req.body;
@@ -55,7 +55,7 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: 'Credencials incorrectes' });
     }
 
-    // Generar access token (curt: 15 minuts)
+    // 15 minuts
     const accessToken = jwt.sign(
       {
         id: user._id,
@@ -65,14 +65,14 @@ exports.login = async (req, res) => {
       { expiresIn: '15m' }
     );
 
-    // Generar refresh token (llarg: 7 dies)
+    // 7 dies
     const refreshToken = jwt.sign(
       { id: user._id },
       JWT_REFRESH_SECRET,
       { expiresIn: '7d' }
     );
 
-    // Guardar refresh token a la base de dades
+    // Guardar refresh token
     await RefreshToken.create({
       token: refreshToken,
       userId: user._id,
@@ -97,7 +97,7 @@ exports.login = async (req, res) => {
 };
 
 
-// REFRESH TOKEN
+// Refresh token
 exports.refresh = async (req, res) => {
   try {
     const { refreshToken } = req.body;
@@ -112,7 +112,7 @@ exports.refresh = async (req, res) => {
       return res.status(403).json({ message: 'Refresh token no vàlid o ja utilitzat.' });
     }
 
-    // Verificar que el token JWT és vàlid
+    // Verificar token
     jwt.verify(refreshToken, JWT_REFRESH_SECRET, async (err, decoded) => {
       if (err) {
         // Si el token ha expirat, eliminar-lo

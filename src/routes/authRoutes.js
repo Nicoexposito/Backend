@@ -14,7 +14,7 @@ const authController = require("../controllers/authController");
  * /api/auth/register:
  *   post:
  *     summary: Registre d'un nou usuari
- *     tags: [Auth]
+ *     tags: [Auth] 
  *     security: []
  *     requestBody:
  *       required: true
@@ -30,17 +30,17 @@ const authController = require("../controllers/authController");
  *             properties:
  *               nom:
  *                 type: string
- *                 example: Joan
+ *                 example: Nico
  *               primerCognom:
  *                 type: string
- *                 example: Garcia
+ *                 example: Exposito
  *               segonCognom:
  *                 type: string
- *                 example: López
+ *                 example: Alvarado
  *               email:
  *                 type: string
  *                 format: email
- *                 example: joan@example.com
+ *                 example: nico@example.com
  *               contrasenya:
  *                 type: string
  *                 example: password123
@@ -79,7 +79,7 @@ router.post("/register", authController.register);
  *               email:
  *                 type: string
  *                 format: email
- *                 example: joan@example.com
+ *                 example: nico@example.com
  *               contrasenya:
  *                 type: string
  *                 example: password123
