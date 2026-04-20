@@ -46,13 +46,13 @@ exports.login = async (req, res) => {
     // Buscar usuario
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'Credencials incorrectes' });
+      return res.status(400).json({ message: 'Dades incorrectes' });
     }
 
     // Comparar contrasenya
     const isMatch = await bcrypt.compare(contrasenya, user.contrasenya);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Credencials incorrectes' });
+      return res.status(400).json({ message: 'Dades incorrectes' });
     }
 
     // 15 minuts

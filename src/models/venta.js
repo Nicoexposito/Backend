@@ -45,8 +45,8 @@ const ventaSchema = new mongoose.Schema({
   },
   estat: {
     type: String,
-    enum: ['pendent', 'completada', 'enviada', 'entregada', 'cancel·lada'],
-    default: 'completada'
+    enum: ['pendent', 'pagat', 'completada', 'enviada', 'entregada', 'cancel·lada'],
+    default: 'pendent'
   },
   metodePagament: {
     type: String,
@@ -57,7 +57,7 @@ const ventaSchema = new mongoose.Schema({
     carrer: { type: String },
     ciutat: { type: String },
     codiPostal: { type: String },
-    pais: { type: String, default: 'Espanya' }
+    pais: { type: String, default: 'España' }
   }
 }, { timestamps: true });
 

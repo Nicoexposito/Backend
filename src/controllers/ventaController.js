@@ -30,7 +30,8 @@ exports.createVenta = async (req, res) => {
         });
       }
 
-      const preu = parseFloat(producte.preu) || 0;
+      const preuStr = String(producte.preu).replace('€', '').replace(',', '.').trim();
+      const preu = parseFloat(preuStr) || 0;
       total += preu * item.quantitat;
 
       ventaItems.push({
@@ -53,7 +54,7 @@ exports.createVenta = async (req, res) => {
       total: Math.round(total * 100) / 100,
       metodePagament: metodePagament || 'targeta',
       adreca: adreca || {},
-      estat: 'completada'
+      estat: 'pendent'
     });
 
     await venta.save();

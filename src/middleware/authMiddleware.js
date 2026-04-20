@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 
+const JWT_SECRET = process.env.JWT_SECRET || 'clau_super_secreta';
+
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -10,8 +12,12 @@ const authMiddleware = (req, res, next) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secretkey');
-    req.user = decoded;
+    const decoded = jwt.verify(token, JWT_SECRET);
+    // Normalizar: el JWT usa 'rol' pero el código espera 'role'
+    req.user = {
+      id: decoded.id,
+      role: decoded.rol || decoded.role
+    };
     next();
   } catch (error) {
     if (error.name === 'TokenExpiredError') {
