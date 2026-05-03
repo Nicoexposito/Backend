@@ -35,6 +35,17 @@ const usuariSchema = new mongoose.Schema({
     type: String,
     enum: ['actiu', 'inactiu'],
     default: 'inactiu'
+  },
+
+  imatgePerfil: {
+    type: String,
+    default: ''
+  },
+
+  privacitat: {
+    mostrarEmail: { type: Boolean, default: false },
+    mostrarTelefon: { type: Boolean, default: false },
+    perfilPublic: { type: Boolean, default: false }
   }
 }, { timestamps: true });
 
