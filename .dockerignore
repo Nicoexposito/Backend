@@ -1,0 +1,11 @@
+node_modules
+.env
+.git
+.gitignore
+docs
+Doc.md
+README.md
+stripe.exe
+Dockerfile
+Dockerfile.dev
+docker-compose.yaml

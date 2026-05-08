@@ -1,0 +1,18 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copiar archivos de dependencias
+COPY package.json package-lock.json ./
+
+# Instalar TODAS las dependencias (incluido nodemon)
+RUN npm install
+
+# Copiar el código fuente
+COPY . .
+
+# Exponer el puerto de la API
+EXPOSE 3000
+
+# Arrancar con nodemon para hot-reload
+CMD ["npm", "run", "dev"]
