@@ -42,9 +42,19 @@ exports.createCheckoutSession = async (req, res) => {
             },
         });
 
+        req.log.info({
+          orderId: venta._id,
+          userId: usuari._id,
+          sessionId: session.id
+        }, 'Stripe session created');
+
         res.json({ status: 'success', sessionId: session.id, url: session.url });
 
     } catch (error) {
+        req.log.error({
+          error: error.message,
+          userId: req.user?.id || 'unknown'
+        }, 'Payment session creation failed');
         console.error('Error Stripe Session:', error);
         res.status(500).json({ message: error.message });
     }
@@ -74,10 +84,26 @@ exports.handleWebhook = async (req, res) => {
         // Actualitzar comanda a "pagat"
         try {
             await Venta.findByIdAndUpdate(comandaId, { estat: 'pagat' });
+            req.log.info({
+              orderId: comandaId,
+              sessionId: session.id
+            }, 'Payment confirmed');
             console.log(`Venta ${comandaId} marcada com a PAGAT`);
         } catch (dbErr) {
+            req.log.error({
+              orderId: comandaId,
+              error: dbErr.message
+            }, 'Error updating order after payment');
             console.error('Error actualitzant DB al webhook:', dbErr);
         }
+    } else if (event.type === 'checkout.session.expired' || event.type === 'checkout.session.async_payment_failed') {
+        const session = event.data.object;
+        const comandaId = session.metadata?.comandaId;
+        req.log.warn({
+          orderId: comandaId,
+          sessionId: session.id,
+          type: event.type
+        }, 'Payment failed or session expired');
     }
 
     res.json({ received: true });

@@ -59,6 +59,12 @@ exports.createVenta = async (req, res) => {
 
     await venta.save();
 
+    req.log.info({
+      orderId: venta._id,
+      userId: userId,
+      total: venta.total
+    }, 'Order created');
+
     res.status(201).json({
       status: 'success',
       message: 'Compra realitzada correctament.',

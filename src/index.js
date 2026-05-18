@@ -10,13 +10,19 @@ const ventaRoutes = require('./routes/ventaRoutes');
 const checkoutRoutes = require('./routes/checkoutRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const healthRoutes = require('./routes/healthRoutes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./docs/swagger');
+const httpLogger = require('./middleware/httpLogger');
+const requestId = require('./middleware/requestId');
+const errorHandler = require('./middleware/errorHandler');
 
 
 const app = express();
 
 // Middleware
+app.use(requestId);
+app.use(httpLogger);
 app.use(cors());
 app.use('/api/checkout', checkoutRoutes);
 app.use(express.json({ limit: '2mb' }));
@@ -33,6 +39,14 @@ app.use('/api/auth', authRoutes);
 app.use('/api/ventas', ventaRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api', healthRoutes);
+
+// Endpoint temporal per simulació d'errors (4.14)
+app.get('/api/debug/error', (req, res, next) => {
+  next(new Error('Error de prova per observabilitat'));
+});
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor escoltant al port ${PORT}`));

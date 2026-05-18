@@ -46,12 +46,14 @@ exports.login = async (req, res) => {
     // Buscar usuario
     const user = await User.findOne({ email });
     if (!user) {
+      req.log.warn({ email }, 'Invalid login attempt');
       return res.status(400).json({ message: 'Dades incorrectes' });
     }
 
     // Comparar contrasenya
     const isMatch = await bcrypt.compare(contrasenya, user.contrasenya);
     if (!isMatch) {
+      req.log.warn({ email }, 'Invalid login attempt');
       return res.status(400).json({ message: 'Dades incorrectes' });
     }
 
@@ -78,6 +80,11 @@ exports.login = async (req, res) => {
       userId: user._id,
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 dies
     });
+
+    req.log.info({
+      userId: user._id,
+      email: user.email
+    }, 'User logged in successfully');
 
     res.json({
       message: 'Login correcte',
@@ -162,6 +169,10 @@ exports.logout = async (req, res) => {
     if (result.deletedCount === 0) {
       return res.status(400).json({ message: 'Refresh token no trobat.' });
     }
+
+    req.log.info({
+      userId: req.user?.id || req.user?.userId || 'unknown'
+    }, 'User logged out');
 
     res.json({ message: 'Logout correcte. Sessió tancada.' });
 
