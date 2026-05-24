@@ -38,6 +38,14 @@ const ventaSchema = new mongoose.Schema({
     required: true,
     validate: [arr => arr.length > 0, 'La venta ha de tenir almenys un producte']
   },
+  subtotal: {
+    type: Number,
+    min: [0, 'El subtotal no pot ser negatiu']
+  },
+  iva: {
+    type: Number,
+    min: [0, 'L\'IVA no pot ser negatiu']
+  },
   total: {
     type: Number,
     required: true,

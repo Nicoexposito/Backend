@@ -1,6 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Venta = require('../models/venta');
 const Usuari = require('../models/usuari');
+const logger = require('../config/logger');
 
 // Crear una sessió de Stripe Checkout
 exports.createCheckoutSession = async (req, res) => {
@@ -29,6 +30,18 @@ exports.createCheckoutSession = async (req, res) => {
             },
             quantity: item.quantitat,
         }));
+
+        // Afegir línia d'IVA (21%)
+        const subtotal = venta.items.reduce((sum, item) => sum + item.preu * item.quantitat, 0);
+        const ivaAmount = Math.round(subtotal * 0.21 * 100); // en cèntims
+        line_items.push({
+            price_data: {
+                currency: 'eur',
+                product_data: { name: 'IVA (21%)' },
+                unit_amount: ivaAmount,
+            },
+            quantity: 1,
+        });
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -84,13 +97,13 @@ exports.handleWebhook = async (req, res) => {
         // Actualitzar comanda a "pagat"
         try {
             await Venta.findByIdAndUpdate(comandaId, { estat: 'pagat' });
-            req.log.info({
+            logger.info({
               orderId: comandaId,
               sessionId: session.id
-            }, 'Payment confirmed');
+            }, 'Payment confirmed via webhook');
             console.log(`Venta ${comandaId} marcada com a PAGAT`);
         } catch (dbErr) {
-            req.log.error({
+            logger.error({
               orderId: comandaId,
               error: dbErr.message
             }, 'Error updating order after payment');
@@ -99,7 +112,7 @@ exports.handleWebhook = async (req, res) => {
     } else if (event.type === 'checkout.session.expired' || event.type === 'checkout.session.async_payment_failed') {
         const session = event.data.object;
         const comandaId = session.metadata?.comandaId;
-        req.log.warn({
+        logger.warn({
           orderId: comandaId,
           sessionId: session.id,
           type: event.type

@@ -47,11 +47,18 @@ exports.createVenta = async (req, res) => {
       await producte.save();
     }
 
+    // Calcular subtotal i IVA
+    const subtotal = Math.round(total * 100) / 100;
+    const iva = Math.round(total * 0.21 * 100) / 100;
+    const totalAmbIva = Math.round((total * 1.21) * 100) / 100;
+
     // Crear la venta
     const venta = new Venta({
       userId,
       items: ventaItems,
-      total: Math.round(total * 100) / 100,
+      subtotal,
+      iva,
+      total: totalAmbIva,
       metodePagament: metodePagament || 'targeta',
       adreca: adreca || {},
       estat: 'pendent'

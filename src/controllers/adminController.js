@@ -46,16 +46,19 @@ exports.getStats = async (req, res) => {
 // GET /api/admin/charts/sales-weekly — Vendes per dia (últims 7 dies)
 exports.getSalesWeekly = async (req, res) => {
   try {
+    const timezone = 'Europe/Madrid';
+
+    // Calcular fa 7 dies a mitjanit UTC
     const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
-    sevenDaysAgo.setHours(0, 0, 0, 0);
+    sevenDaysAgo.setUTCDate(sevenDaysAgo.getUTCDate() - 6);
+    sevenDaysAgo.setUTCHours(0, 0, 0, 0);
 
     const salesByDay = await Venta.aggregate([
       { $match: { createdAt: { $gte: sevenDaysAgo } } },
       {
         $group: {
           _id: {
-            $dateToString: { format: '%Y-%m-%d', date: '$createdAt' }
+            $dateToString: { format: '%Y-%m-%d', date: '$createdAt', timezone }
           },
           count: { $sum: 1 },
           total: { $sum: '$total' }
@@ -72,10 +75,17 @@ exports.getSalesWeekly = async (req, res) => {
 
     for (let i = 0; i < 7; i++) {
       const date = new Date(sevenDaysAgo);
-      date.setDate(date.getDate() + i);
-      const dateStr = date.toISOString().split('T')[0];
-      const dayName = dayNames[date.getDay()];
-      const dayNum = date.getDate();
+      date.setUTCDate(date.getUTCDate() + i);
+
+      // Formatear la fecha en la zona horaria local para coincidir con MongoDB
+      const year = date.toLocaleString('en-CA', { timeZone: timezone, year: 'numeric' });
+      const month = date.toLocaleString('en-CA', { timeZone: timezone, month: '2-digit' });
+      const day = date.toLocaleString('en-CA', { timeZone: timezone, day: '2-digit' });
+      const dateStr = `${year}-${month}-${day}`;
+
+      const localDate = new Date(date.toLocaleString('en-US', { timeZone: timezone }));
+      const dayName = dayNames[localDate.getDay()];
+      const dayNum = localDate.getDate();
 
       labels.push(`${dayName} ${dayNum}`);
 
